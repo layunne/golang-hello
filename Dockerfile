@@ -4,13 +4,9 @@ WORKDIR /app
 
 COPY . .
 
-RUN go build -o app .
+RUN GOOS=linux GOARCH=amd64 go build -o app .
 
-FROM alpine:3.7
-
-RUN apk update && \
-    apk add ca-certificates && \
-    rm -rf /var/cache/apk/*
+FROM scratch
 
 COPY --from=build app/app .
 
